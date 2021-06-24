@@ -9,17 +9,88 @@ namespace ConsoleUI
 {
     class Program
     {
+        private static Dictionary<int, string> guests = new Dictionary<int, string>();
+
+        private static int min = 1000;
+
+        private static int max = 9999;
+
+        private static Random rdm = new Random();
+
         static void Main(string[] args)
         {
+            Console.WriteLine("Welcome to the Party!!");
+            GetUserInfo();
+            PrintGuestName();
+            PrintWinner();
+            Console.ReadLine();
+        }
 
+
+        static string GetUserInput(string message)
+        {
+            Console.WriteLine(message);
+            string response = Console.ReadLine();
+            return response;
+        }
+
+
+        static void GetUserInfo()
+        {
+            string guestName = null;
+            string anotherName = null;
+
+            do
+            {
+
+                guestName = GetUserInput("enter guests name: ");
+                int randomNumber = GenerateRandomNumber(min, max);
+
+                guests.Add(randomNumber, guestName);
+
+                anotherName = GetUserInput("Is there another guest to enter: ");
+
+                /* Asks for guests name by calling method
+                * generate / assigns random number
+                * add to dictionary
+                * asks if there is another guest to add
+                * repeats until not yet
+                */
+            }
+
+            while (Equals(anotherName, "Yes"));
 
         }
 
-        //Start writing your code here
 
 
+        static int GenerateRandomNumber(int min, int max)
 
+        {
+            return rdm.Next(min, max);
+        }
 
+        static int GetRaffleNumber(Dictionary<int, string> raffleNumber)
+        {
+            List<int> newList = raffleNumber.Keys.ToList();
+            int i = rdm.Next(newList.Count);
+            int j = newList[i];
+            return j;
+        }
+
+        static void PrintGuestName()
+        {
+            foreach (KeyValuePair<int, string> kvp in guests)
+            {
+                Console.WriteLine($"{kvp.Value} ==> {kvp.Key}");
+            }
+        }
+
+        static void PrintWinner()
+        {
+            int k = GetRaffleNumber(guests);
+            Console.WriteLine($"The winner is {guests[k]} {k}");
+        }
 
 
         static void MultiLineAnimation() // Credit: https://www.michalbialecki.com/2018/05/25/how-to-make-you-console-app-look-cool/
