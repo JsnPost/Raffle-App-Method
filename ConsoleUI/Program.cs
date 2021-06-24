@@ -30,7 +30,7 @@ namespace ConsoleUI
         static string GetUserInput(string message)
         {
             Console.WriteLine(message);
-            string response = Console.ReadLine();
+            string response = Console.ReadLine().ToLower();
             return response;
         }
 
@@ -44,7 +44,20 @@ namespace ConsoleUI
             {
 
                 guestName = GetUserInput("enter guests name: ");
+
+                while (guestName == "")
+                {
+                    guestName = GetUserInput("enter guest name: ");
+                }
+
                 int randomNumber = GenerateRandomNumber(min, max);
+
+                //check number against keys in dictionary
+
+                while (guests.Keys.Contains(randomNumber))
+                {
+                    randomNumber = GenerateRandomNumber(min, max);
+                }
 
                 guests.Add(randomNumber, guestName);
 
@@ -58,7 +71,7 @@ namespace ConsoleUI
                 */
             }
 
-            while (Equals(anotherName, "Yes"));
+            while (Equals(anotherName, "yes"));
 
         }
 
